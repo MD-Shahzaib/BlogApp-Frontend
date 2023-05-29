@@ -1,6 +1,14 @@
+import Navbar from "./Components/Navbar";
+import Router from "./Config/Router";
+import Footer from "./Components/Footer";
+
 function App() {
   return (
-    <div className="flex justify-center align-middle h-[100vh] bg-slate-500">Blog App Successfully Running</div>
+    <>
+      <Navbar />
+      <Router />
+      <Footer />
+    </>
   );
 }
 
