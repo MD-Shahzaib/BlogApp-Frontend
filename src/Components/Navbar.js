@@ -3,7 +3,23 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
-    const [user, setUser] = useState(true)
+    const [user, setUser] = useState(false)
+
+    // Protected-Routing-Method.
+    useEffect(() => {
+        const token = localStorage.getItem("UserToken")
+        if (token) {
+            setUser(true)
+        }
+    }, [])
+
+    // Logout Function
+    const logout = () => {
+        localStorage.removeItem("UserToken")
+        setUser(false)
+        alert("Logout Success")
+    }
+
     // useEffect(() => {
     //     setTimeout(() => {
     //         setUser(true)
@@ -30,6 +46,7 @@ const Navbar = () => {
                             <>
                                 <Link to={"/createPost"} className="mr-5 hover:text-gray-900">Create New Post</Link>
                                 <Link to={"/profile"} className="mr-5 hover:text-gray-900">Profile</Link>
+                                <button onClick={logout} className='bg-gray-300 border-0 py-1 px-3 focus:outline-none hover:bg-gray-400 hover:text-slate-100 rounded text-base mr-4 md:mt-0'>Logout</button>
                             </>
                         }
                     </nav>

@@ -1,8 +1,15 @@
 import React from 'react'
+// Components.
+import Navbar from "../Components/Navbar"
+import Footer from "../Components/Footer"
 
 const CreatePost = () => {
     return (
-        <div>CreatePost</div>
+        <>
+            <Navbar />
+            <h1>Create New Post</h1>
+            <Footer />
+        </>
     )
 }
 

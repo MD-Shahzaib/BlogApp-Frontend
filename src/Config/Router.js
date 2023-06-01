@@ -5,9 +5,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Screens.
 import Home from '../Screens/Home'
-import Contact from "../Screens/Contact";
-import Login from "../Screens/Login";
 import Register from "../Screens/Register";
+import Login from "../Screens/Login";
+import CreatePost from "../Screens/CreatePost";
+import Profile from "../Screens/Profile";
+import Contact from "../Screens/Contact";
 
 // Import-Router-Components.
 const router = createBrowserRouter([
@@ -16,16 +18,24 @@ const router = createBrowserRouter([
         element: <Home />,
     },
     {
-        path: "/contact",
-        element: <Contact />,
+        path: "/register",
+        element: <Register />,
     },
     {
         path: "/login",
         element: <Login />,
     },
     {
-        path: "/register",
-        element: <Register />,
+        path: "/createpost",
+        element: <CreatePost />,
+    },
+    {
+        path: "/profile",
+        element: <Profile />,
+    },
+    {
+        path: "/contact",
+        element: <Contact />,
     },
 ]);
 
@@ -36,7 +46,7 @@ export default function Router() {
     )
 };
 */
-
+// BASIC ROUTE.
 
 
 
@@ -56,9 +66,12 @@ export default function Router() {
 
 
 // PROTECTED ROUTE.
+// /*
 import { useEffect, useState } from 'react'
+// Import-Router-Components.
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route, Navigate } from "react-router-dom"
 
+// Screens.
 import Home from "../Screens/Home"
 import Login from "../Screens/Login"
 import Register from "../Screens/Register"
@@ -66,10 +79,17 @@ import Profile from "../Screens/Profile"
 import CreatePost from "../Screens/CreatePost"
 import Contact from "../Screens/Contact"
 
-
 export default function Router() {
 
-    const [user, setUser] = useState(true)
+    const [user, setUser] = useState(false)
+    // Protected-Routing-Method.
+    useEffect(() => {
+        const token = localStorage.getItem("UserToken")
+        if (token) {
+            setUser(true)
+        }
+    }, [])
+
     // useEffect(() => {
     //     setTimeout(() => {
     //         console.log(user);
@@ -116,13 +136,15 @@ export default function Router() {
                         route={<CreatePost />}
                         navigateTo='/login' />}
                 />
-
             </>
         )
     )
     return <RouterProvider router={router} />
-}
+};
 
+// Protected-Route-Component.
 function ProtectedRoute({ user, route, navigateTo }) {
     return user ? route : <Navigate to={navigateTo} replace={true} />
-}
+};
+// */
+// PROTECTED ROUTE.
