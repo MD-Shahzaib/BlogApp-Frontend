@@ -1,72 +1,4 @@
-// BASIC ROUTE.
-/*
-// Import-Router-Components.
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-// Screens.
-import Home from '../Screens/Home'
-import Register from "../Screens/Register";
-import Login from "../Screens/Login";
-import CreatePost from "../Screens/CreatePost";
-import Profile from "../Screens/Profile";
-import Contact from "../Screens/Contact";
-
-// Import-Router-Components.
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Home />,
-    },
-    {
-        path: "/register",
-        element: <Register />,
-    },
-    {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: "/createpost",
-        element: <CreatePost />,
-    },
-    {
-        path: "/profile",
-        element: <Profile />,
-    },
-    {
-        path: "/contact",
-        element: <Contact />,
-    },
-]);
-
-// Export-Router-Component.
-export default function Router() {
-    return (
-        <RouterProvider router={router} />
-    )
-};
-*/
-// BASIC ROUTE.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // PROTECTED ROUTE.
-// /*
 import { useEffect, useState } from 'react'
 // Import-Router-Components.
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route, Navigate } from "react-router-dom"
@@ -78,25 +10,18 @@ import Register from "../Screens/Register"
 import Profile from "../Screens/Profile"
 import CreatePost from "../Screens/CreatePost"
 import Contact from "../Screens/Contact"
+import Article from '../Screens/Article'
 
 export default function Router() {
 
-    const [user, setUser] = useState(false)
     // Protected-Routing-Method.
+    const [user, setUser] = useState(false)
     useEffect(() => {
         const token = localStorage.getItem("UserToken")
-        if (token) {
-            setUser(true)
-        }
+        if (token) { setUser(true) }
     }, [])
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         console.log(user);
-    //         setUser(true)
-    //     }, 5000)
-    // }, [])
-
+    // ALL-ROUTES.
     const router = createBrowserRouter(
         createRoutesFromElements(
             <>
@@ -136,6 +61,12 @@ export default function Router() {
                         route={<CreatePost />}
                         navigateTo='/login' />}
                 />
+                <Route path="/article/:id" element={
+                    <ProtectedRoute
+                        user={user}
+                        route={<Article />}
+                        navigateTo='/login' />}
+                />
             </>
         )
     )
@@ -146,5 +77,6 @@ export default function Router() {
 function ProtectedRoute({ user, route, navigateTo }) {
     return user ? route : <Navigate to={navigateTo} replace={true} />
 };
+
 // */
 // PROTECTED ROUTE.

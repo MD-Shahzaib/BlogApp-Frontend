@@ -3,14 +3,12 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
-    const [user, setUser] = useState(false)
 
     // Protected-Routing-Method.
+    const [user, setUser] = useState(false)
     useEffect(() => {
         const token = localStorage.getItem("UserToken")
-        if (token) {
-            setUser(true)
-        }
+        if (token) { setUser(true) }
     }, [])
 
     // Logout Function
@@ -19,12 +17,6 @@ const Navbar = () => {
         setUser(false)
         alert("Logout Success")
     }
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setUser(true)
-    //     }, 5000);
-    // }, [])
 
     return (
         <>
