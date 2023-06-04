@@ -5,6 +5,7 @@ import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 
 const Article = () => {
+
     const { id } = useParams();
     const [article, setArticle] = useState({});
     // Destructuring-Article.
@@ -18,6 +19,20 @@ const Article = () => {
     useEffect(() => {
         fetchSingleBlog();
     }, []);
+
+    // CREATE DATE METHOD.
+    // /* 
+    let dataDate = new Date(createdAt)
+    const options = { weekday: "long", day: "numeric", hour: "numeric", minutes: "numeric", month: "long", year: "numeric", time: "numeric" };
+    const currentDate = (dataDate.toLocaleDateString("en-US", options));
+    let allMethods = [dataDate.getMonth(), dataDate.getMonth(), dataDate.getDate(), dataDate.getFullYear(), dataDate.getHours(), dataDate.getMinutes()];
+    let status = 'AM'
+    console.log(`${createdAt} | ${allMethods} ${status}`);
+    console.log(new Date(createdAt).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" }));
+    console.log(new Date().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" }));
+    console.log(dataDate.toLocaleDateString("de-DE", options));
+    // */
+    // CREATE DATE METHOD
 
     return (
         <>
@@ -46,13 +61,14 @@ const Article = () => {
                             <div className='text-sm text-indigo-500 my-1'>
                                 <span className='font-bold mr-3'>{category}</span>
                                 <span>{createdAt}</span>
+                                <span className='mx-5'>|</span>
+                                <span>{currentDate}</span>
                             </div>
                             <p className="leading-relaxed text-lg mb-4">{detail}</p>
                         </div>
                     </div>
                 </div>
             </div>
-
             <Footer />
         </>
     )

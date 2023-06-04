@@ -7,7 +7,7 @@ const CreatePost = () => {
     return (
         <>
             <Navbar />
-            <h1>Create New Post</h1>
+            <h1>Create Your New Post</h1>
             <Footer />
         </>
     )
