@@ -8,14 +8,18 @@ const Article = () => {
 
     const { id } = useParams();
     const [article, setArticle] = useState({});
+
     // Destructuring-Article.
-    const { _id, email, fullname, title, summary, detail, category, image, createdAt, updatedAt } = article;
+    const { fullname, title, summary, category, image, createdAt, content } = article;
+
     // Fetch-Single-Blog.
     const fetchSingleBlog = async () => {
         const response = await fetch(`http://localhost:5000/blogs/getblog/${id}`);
         const singleBlog = await response.json();
         setArticle(singleBlog.data);
+        console.log(singleBlog.data);
     }
+
     useEffect(() => {
         fetchSingleBlog();
     }, []);
@@ -24,7 +28,6 @@ const Article = () => {
     let createdAt_Date = new Date(createdAt)
     const options = { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", };
     const currentDate = (createdAt_Date.toLocaleDateString("en-US", options));
-    // CREATE DATE FORMATER.
 
     return (
         <>
@@ -54,7 +57,7 @@ const Article = () => {
                                 <span className='font-bold mr-3'>{category}</span>
                                 <span>{currentDate}</span>
                             </div>
-                            <p className="leading-relaxed text-lg mb-4">{detail}</p>
+                            <p className="leading-relaxed text-lg mb-4" dangerouslySetInnerHTML={{ __html: content }}></p>
                         </div>
                     </div>
                 </div>

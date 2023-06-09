@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
-
     // Protected-Routing-Method.
     const [user, setUser] = useState(false)
     useEffect(() => {

@@ -6,26 +6,31 @@ import { format } from 'date-fns'
 const BlogPosts = () => {
 
     const [blogs, setBlogs] = useState([])
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
         fetchBlogs();
     }, []);
+
     // Fetch-All-Blogs Function.
     const fetchBlogs = async () => {
         const response = await fetch("http://localhost:5000/blogs/getblogs");
         const allBlogs = await response.json();
         setBlogs(allBlogs.data);
+        setLoading(false)
     };
 
     return (
         <>
             {/* Blog-Post-Container */}
             <div className="container p-5 mx-auto text-gray-600">
-                <h2 className="text-3xl text-blue-800 mb-3 font-semibold">ALL BLOGS ({blogs.length})</h2>
+                {loading ? <h1>Fetching blogs... please wait...</h1> : <h2 className="text-3xl text-blue-800 mb-3 font-semibold">MS-BLOGS ({blogs.length})</h2>
+                }
                 {/* Blog-Post */}
                 {blogs.map((item, index) => {
 
                     // Destructuring-items.
-                    const { _id, email, fullname, title, summary, image, category, detail, createdAt, updatedAt } = item
+                    const { _id, fullname, title, summary, image, category, createdAt } = item
 
                     return (
                         <div key={_id} className="flex flex-wrap md:flex-nowrap rounded-lg mb-4 shadow-lg hover:bg-slate-100 border">
