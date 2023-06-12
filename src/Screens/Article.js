@@ -17,7 +17,6 @@ const Article = () => {
         const response = await fetch(`http://localhost:5000/blogs/getblog/${id}`);
         const singleBlog = await response.json();
         setArticle(singleBlog.data);
-        console.log(singleBlog.data);
     }
 
     useEffect(() => {

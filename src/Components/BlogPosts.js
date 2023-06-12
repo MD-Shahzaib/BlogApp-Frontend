@@ -5,8 +5,8 @@ import { format } from 'date-fns'
 
 const BlogPosts = () => {
 
-    const [blogs, setBlogs] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchBlogs();
@@ -14,24 +14,31 @@ const BlogPosts = () => {
 
     // Fetch-All-Blogs Function.
     const fetchBlogs = async () => {
-        const response = await fetch("http://localhost:5000/blogs/getblogs");
-        const allBlogs = await response.json();
-        setBlogs(allBlogs.data);
-        setLoading(false)
-    };
+        try {
+            const response = await fetch("http://localhost:5000/blogs/getblogs");
+            const allBlogs = await response.json();
+            setBlogs(allBlogs.data);
+            setLoading(false)
+        } catch (error) {
+            console.log("error =>", error.message);
+        }
+    }
 
     return (
         <>
             {/* Blog-Post-Container */}
             <div className="container p-5 mx-auto text-gray-600">
-                {loading ? <h1>Fetching blogs... please wait...</h1> : <h2 className="text-3xl text-blue-800 mb-3 font-semibold">MS-BLOGS ({blogs.length})</h2>
-                }
-                {/* Blog-Post */}
-                {blogs.map((item, index) => {
 
+                {/* Heading */}
+                {!blogs || loading
+                    ? <h1>Fetching blogs, please wait...</h1>
+                    : <h2 className="text-3xl text-blue-800 mb-3 font-semibold">MS-BLOGS ({blogs?.length})</h2>
+                }
+
+                {/* Blog-Post */}
+                {blogs?.map((item, index) => {
                     // Destructuring-items.
                     const { _id, fullname, title, summary, image, category, createdAt } = item
-
                     return (
                         <div key={_id} className="flex flex-wrap md:flex-nowrap rounded-lg mb-4 shadow-lg hover:bg-slate-100 border">
                             <div className="md:w-1/4 w-full flex-shrink-0 flex flex-col md:mb-0 mb-2">
