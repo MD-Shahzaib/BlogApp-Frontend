@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // Components.
 import Navbar from "../Components/Navbar"
 import Footer from "../Components/Footer"
 
 const Login = () => {
 
-    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+
     // LOGIN_USER_FUNCTION
     const loginUser = async () => {
         const response = await fetch('http://localhost:5000/users/login', {
@@ -20,8 +19,8 @@ const Login = () => {
         const userDoc = await response.json()
         if (userDoc.message === "Success") {
             console.log("userDoc => ", userDoc.message);
-            localStorage.setItem("UserToken", JSON.stringify(userDoc));
-            navigate('/')
+            localStorage.setItem("UserInfo", JSON.stringify(userDoc));
+            window.location.reload();
         } else {
             console.log("userDoc => ", userDoc.message);
             alert("Invalid Credentials")

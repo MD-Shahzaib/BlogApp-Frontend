@@ -37,8 +37,10 @@ const BlogPosts = () => {
 
                 {/* Blog-Post */}
                 {blogs?.map((item, index) => {
+
                     // Destructuring-items.
-                    const { _id, fullname, title, summary, image, category, createdAt } = item
+                    const { _id, author, title, summary, category, createdAt, image } = item
+
                     return (
                         <div key={_id} className="flex flex-wrap md:flex-nowrap rounded-lg mb-4 shadow-lg hover:bg-slate-100 border">
                             <div className="md:w-1/4 w-full flex-shrink-0 flex flex-col md:mb-0 mb-2">
@@ -47,7 +49,7 @@ const BlogPosts = () => {
                             <div className="md:w-3/4 px-2 pb-2">
                                 <h2 className="text-2xl font-medium text-gray-900 title-font mb-1">{title}</h2>
                                 <div className="text-xs">
-                                    <span className='text-black font-semibold'>{fullname}</span>
+                                    <span className='text-black font-semibold'>{author?.fullname}</span>
                                     <span className='mx-2 text-slate-600 font-semibold'>{category}</span>
                                     <span>{format(new Date(createdAt), 'MMM d, yyyy h:mm a')}</span>
                                 </div>

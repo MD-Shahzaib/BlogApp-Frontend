@@ -17,7 +17,7 @@ export default function Router() {
     // Protected-Routing-Method.
     const [user, setUser] = useState(false)
     useEffect(() => {
-        const token = localStorage.getItem("UserToken")
+        const token = localStorage.getItem("UserInfo")
         if (token) { setUser(true) }
     }, [])
 

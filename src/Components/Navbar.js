@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
     // Protected-Routing-Method.
-    const [user, setUser] = useState(false)
+    const [user, setUser] = useState(false);
     useEffect(() => {
-        const token = localStorage.getItem("UserToken")
-        if (token) { setUser(true) }
-    }, [])
+        const token = localStorage.getItem("UserInfo");
+        if (token) { setUser(true) };
+    }, []);
 
     // Logout Function
     const logout = () => {
-        localStorage.removeItem("UserToken")
-        setUser(false)
-        alert("Logout Success")
+        localStorage.removeItem("UserInfo");
+        setUser(false);
+        alert("Logout Success");
+        window.location.reload();
     }
 
     return (

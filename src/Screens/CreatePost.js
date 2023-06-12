@@ -16,8 +16,10 @@ const CreatePost = () => {
     const [category, setCategory] = useState("");
     const [content, setContent] = useState("");
 
-    // TOKEN
-    const token = JSON.parse(localStorage.getItem('UserToken')).token
+    // GRAB (TOKEN/_id).
+    const token = JSON.parse(localStorage.getItem('UserInfo')).token;
+    const userId = token._id;
+    const authToken = token.tokens.slice(-1);
 
     // Create-Post.
     const createPost = async () => {
@@ -25,7 +27,8 @@ const CreatePost = () => {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                // Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${authToken}`,
             },
             body: JSON.stringify({
                 title,
@@ -33,8 +36,7 @@ const CreatePost = () => {
                 image,
                 category,
                 content,
-                // Grab (decoded._id) and 👇👇 send to body
-                author: '64785268e9fbcd03c6464d8a'
+                author: userId
             })
         })
         const postDoc = await response.json()
@@ -42,7 +44,7 @@ const CreatePost = () => {
             setRedirect(true);
             alert("postDoc Success");
         } else {
-            console.log(postDoc.error);
+            console.log(postDoc);
             alert("postDoc Error");
         }
     };
