@@ -7,7 +7,6 @@ import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route, N
 import Home from "../Screens/Home"
 import Login from "../Screens/Login"
 import Register from "../Screens/Register"
-import Profile from "../Screens/Profile"
 import CreatePost from "../Screens/CreatePost"
 import Contact from "../Screens/Contact"
 import Article from '../Screens/Article'
@@ -43,12 +42,6 @@ export default function Router() {
                         route={<Register />}
                         navigateTo='/' />}
                 />
-                <Route path="/profile" element={
-                    <ProtectedRoute
-                        user={user}
-                        route={<Profile />}
-                        navigateTo='/login' />}
-                />
                 <Route path="/contact" element={
                     <ProtectedRoute
                         user={user}
@@ -77,6 +70,3 @@ export default function Router() {
 function ProtectedRoute({ user, route, navigateTo }) {
     return user ? route : <Navigate to={navigateTo} replace={true} />
 };
-
-// */
-// PROTECTED ROUTE.

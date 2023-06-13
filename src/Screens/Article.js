@@ -10,7 +10,7 @@ const Article = () => {
     const [article, setArticle] = useState({});
 
     // Destructuring-Article.
-    const { fullname, title, summary, category, image, createdAt, content } = article;
+    const { author, title, summary, category, image, createdAt, content } = article;
 
     // Fetch-Single-Blog.
     const fetchSingleBlog = async () => {
@@ -45,7 +45,8 @@ const Article = () => {
                                 </svg>
                             </div>
                             <div className="flex flex-col items-center text-center justify-center">
-                                <h2 className="font-medium title-font mt-4 text-gray-900 text-lg">{fullname}</h2>
+                                <h2 className="font-medium title-font mt-4 text-gray-900 text-lg">{author?.fullname}</h2>
+                                <p>{author?.email}</p>
                                 <div className="w-12 h-1 bg-indigo-500 rounded mt-2 mb-4"></div>
                                 <p className="text-base">{summary}</p>
                             </div>
