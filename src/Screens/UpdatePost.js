@@ -1,23 +1,24 @@
-import React, { useState } from 'react'
-import { Navigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Navigate, useParams } from 'react-router-dom'
 // ReactQuill.
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 // React-Toastify.
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 // Components.
-import Navbar from "../Components/Navbar"
-import Footer from "../Components/Footer"
+import Navbar from '../Components/Navbar'
+import Footer from '../Components/Footer'
 
-const CreatePost = () => {
+const UpdatePost = () => {
 
     // GRAB (TOKEN/_id).
     const token = JSON.parse(localStorage.getItem('UserInfo')).token;
     const userId = token._id;
     const authToken = token.tokens.slice(-1);
 
-    // States.
+    const { id } = useParams();
+    const [article, setArticle] = useState({});
     const [redirect, setRedirect] = useState(false);
     const [title, setTitle] = useState("");
     const [summary, setSummary] = useState("");
@@ -25,22 +26,45 @@ const CreatePost = () => {
     const [category, setCategory] = useState("");
     const [content, setContent] = useState("");
 
+
+    // Fetch-Single-Blog.
+    // const fetchSingleBlog = async () => {
+    //     const response = await fetch(`http://localhost:5000/blogs/getblog/${id}`);
+    //     const singleBlog = await response.json();
+    //     setArticle(singleBlog.data);
+    // }
+
+    // useEffect(() => {
+    //     // fetchSingleBlog();
+    //     fetch(`http://localhost:5000/blogs/getblog/${id}`)
+    //         .then(response => response.json())
+    //         .then(postInfo => setArticle(postInfo.data));
+
+    //     setTitle(article.title)
+    //     setSummary(article.summary)
+    //     setImage(article.image)
+    //     setCategory(article.category)
+    //     setContent(article.content)
+    // }, []);
+
+    useEffect(() => {
+        // fetchSingleBlog();
+        fetch(`http://localhost:5000/blogs/getblog/${id}`)
+            .then(response => response.json())
+            .then(postInfo => {
+                setTitle(postInfo.data.title)
+                setSummary(postInfo.data.summary)
+                setImage(postInfo.data.image)
+                setCategory(postInfo.data.category)
+                setContent(postInfo.data.content)
+            })
+    }, []);
+
+
+
     // Image Upload Function.
     const imageUpload = async (picture) => {
-        if (picture === undefined) {
-            toast.error('Please Select an Image!', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
-        };
-
-        if (picture.type === "image/jpeg" || picture.type === "image/png") {
+        if (picture !== undefined || picture.type === "image/jpeg" || picture.type === "image/png") {
             const data = new FormData();
             data.append("file", picture);
             data.append("upload_preset", "ms-blog");
@@ -51,34 +75,16 @@ const CreatePost = () => {
             })
             const imgInfo = await imageRes.json();
             setImage(imgInfo.url.toString());
-            toast.success('Image Upload Successfully', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            alert('Image Upload Successfully');
         } else {
-            toast.error('Image! Upload Error', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            alert('Image! Upload Error');
         }
     };
 
-    // Create-Post.
-    const createPost = async () => {
-        const response = await fetch('http://localhost:5000/blogs/addblog', {
-            method: 'POST',
+    // Update-Post.
+    const updatePost = async () => {
+        const response = await fetch(`http://localhost:5000/blogs/updateBlog/${id}`, {
+            method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${authToken}`,
@@ -88,33 +94,15 @@ const CreatePost = () => {
         const postDoc = await response.json()
         if (postDoc.message === "Success") {
             setRedirect(true);
-            toast.success('Post Created Successfully', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            alert('Post Update Successfully');
         } else {
-            toast.error('Some Error Occuerd', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            alert('Some Error Occuerd');
         }
     };
 
     // Redirect.
     if (redirect) {
-        return <Navigate to='/' />
+        return <Navigate to={`/article/${id}`} />
     }
 
     // MODULES.
@@ -125,18 +113,6 @@ const CreatePost = () => {
     return (
         <>
             <Navbar />
-            <ToastContainer
-                position="top-right"
-                autoClose={1000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-            />
             <div className='container mx-auto flex flex-col p-5'>
                 <h1 className='text-2xl font-semibold mb-5 mx-auto'>Create Your New Post</h1>
                 <input
@@ -176,11 +152,11 @@ const CreatePost = () => {
                     value={content}
                     onChange={setContent}
                 />
-                <button onClick={createPost} className='bg-black hover:bg-gray-900 text-white rounded p-2 text-lg font-semibold'>Create Post</button>
+                <button onClick={updatePost} className='bg-black hover:bg-gray-900 text-white rounded p-2 text-lg font-semibold'>Update Post</button>
             </div>
             <Footer />
         </>
     )
 }
 
-export default CreatePost;
+export default UpdatePost;

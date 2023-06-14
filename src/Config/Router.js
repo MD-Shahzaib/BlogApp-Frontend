@@ -8,6 +8,7 @@ import Home from "../Screens/Home"
 import Login from "../Screens/Login"
 import Register from "../Screens/Register"
 import CreatePost from "../Screens/CreatePost"
+import UpdatePost from '../Screens/UpdatePost'
 import Contact from "../Screens/Contact"
 import Article from '../Screens/Article'
 
@@ -52,6 +53,12 @@ export default function Router() {
                     <ProtectedRoute
                         user={user}
                         route={<CreatePost />}
+                        navigateTo='/login' />}
+                />
+                <Route path="/updatepost/:id" element={
+                    <ProtectedRoute
+                        user={user}
+                        route={<UpdatePost />}
                         navigateTo='/login' />}
                 />
                 <Route path="/article/:id" element={
