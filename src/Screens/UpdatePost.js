@@ -3,9 +3,6 @@ import { Navigate, useParams } from 'react-router-dom'
 // ReactQuill.
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-// React-Toastify.
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 // Components.
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/Footer'
@@ -18,7 +15,6 @@ const UpdatePost = () => {
     const authToken = token.tokens.slice(-1);
 
     const { id } = useParams();
-    const [article, setArticle] = useState({});
     const [redirect, setRedirect] = useState(false);
     const [title, setTitle] = useState("");
     const [summary, setSummary] = useState("");
@@ -26,29 +22,7 @@ const UpdatePost = () => {
     const [category, setCategory] = useState("");
     const [content, setContent] = useState("");
 
-
-    // Fetch-Single-Blog.
-    // const fetchSingleBlog = async () => {
-    //     const response = await fetch(`http://localhost:5000/blogs/getblog/${id}`);
-    //     const singleBlog = await response.json();
-    //     setArticle(singleBlog.data);
-    // }
-
-    // useEffect(() => {
-    //     // fetchSingleBlog();
-    //     fetch(`http://localhost:5000/blogs/getblog/${id}`)
-    //         .then(response => response.json())
-    //         .then(postInfo => setArticle(postInfo.data));
-
-    //     setTitle(article.title)
-    //     setSummary(article.summary)
-    //     setImage(article.image)
-    //     setCategory(article.category)
-    //     setContent(article.content)
-    // }, []);
-
     useEffect(() => {
-        // fetchSingleBlog();
         fetch(`http://localhost:5000/blogs/getblog/${id}`)
             .then(response => response.json())
             .then(postInfo => {
@@ -59,8 +33,6 @@ const UpdatePost = () => {
                 setContent(postInfo.data.content)
             })
     }, []);
-
-
 
     // Image Upload Function.
     const imageUpload = async (picture) => {
@@ -85,10 +57,7 @@ const UpdatePost = () => {
     const updatePost = async () => {
         const response = await fetch(`http://localhost:5000/blogs/updateBlog/${id}`, {
             method: 'PUT',
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${authToken}`,
-            },
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
             body: JSON.stringify({ title, summary, image, category, content, author: userId })
         })
         const postDoc = await response.json()
