@@ -13,15 +13,27 @@ const Article = () => {
     // GRAB (TOKEN/_id).
     const token = JSON.parse(localStorage.getItem('UserInfo')).token;
     const userId = token._id;
+    const authToken = token.tokens.slice(-1);
 
     // Destructuring-Article.
     const { author, title, summary, category, image, createdAt, content } = article;
 
     // Fetch-Single-Blog.
     const fetchSingleBlog = async () => {
-        const response = await fetch(`http://localhost:5000/blogs/getblog/${id}`);
-        const singleBlog = await response.json();
-        setArticle(singleBlog.data);
+        try {
+            const response = await fetch(`http://localhost:5000/blogs/getblog/${id}`, {
+                headers: { Authorization: `Bearer ${authToken}` }
+            });
+            const singleBlog = await response.json();
+            if (singleBlog.message === "Success") {
+                setArticle(singleBlog.data);
+            } else {
+                alert(singleBlog.message);
+                setRedirect(true);
+            }
+        } catch (error) {
+            alert(error.message);
+        }
     }
 
     useEffect(() => {
@@ -36,7 +48,8 @@ const Article = () => {
     // Delete-Post-Function.
     const deletePost = async () => {
         const response = await fetch(`http://localhost:5000/blogs/deleteBlog/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${authToken}` }
         });
         const deleteBlog = await response.json();
         if (deleteBlog.message === "Success") {

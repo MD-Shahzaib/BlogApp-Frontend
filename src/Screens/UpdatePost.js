@@ -23,7 +23,9 @@ const UpdatePost = () => {
     const [content, setContent] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:5000/blogs/getblog/${id}`)
+        fetch(`http://localhost:5000/blogs/getblog/${id}`, {
+            headers: { Authorization: `Bearer ${authToken}` }
+        })
             .then(response => response.json())
             .then(postInfo => {
                 setTitle(postInfo.data.title)

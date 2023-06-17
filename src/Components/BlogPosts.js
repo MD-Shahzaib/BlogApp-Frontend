@@ -5,6 +5,10 @@ import { format } from 'date-fns'
 
 const BlogPosts = () => {
 
+    // GRAB (TOKEN/_id).
+    const token = JSON.parse(localStorage.getItem('UserInfo')).token;
+    const authToken = token.tokens.slice(-1);
+
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -15,7 +19,9 @@ const BlogPosts = () => {
     // Fetch-All-Blogs Function.
     const fetchBlogs = async () => {
         try {
-            const response = await fetch("http://localhost:5000/blogs/getblogs");
+            const response = await fetch("http://localhost:5000/blogs/getblogs", {
+                headers: { Authorization: `Bearer ${authToken}` },
+            });
             const allBlogs = await response.json();
             setBlogs(allBlogs.data);
             setLoading(false)
