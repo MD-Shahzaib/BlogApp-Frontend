@@ -17,6 +17,10 @@ const CreatePost = () => {
     const userId = token._id;
     const authToken = token.tokens.slice(-1);
 
+    /* (token) */
+    // const token = JSON.parse(localStorage.getItem('UserInfo')).token;
+    // const authToken = token;
+
     // States.
     const [redirect, setRedirect] = useState(false);
     const [title, setTitle] = useState("");
@@ -84,6 +88,9 @@ const CreatePost = () => {
                 Authorization: `Bearer ${authToken}`,
             },
             body: JSON.stringify({ title, summary, image, category, content, author: userId })
+
+            /* (token) */
+            // body: JSON.stringify({ title, summary, image, category, content })
         })
         const postDoc = await response.json()
         if (postDoc.message === "Success") {

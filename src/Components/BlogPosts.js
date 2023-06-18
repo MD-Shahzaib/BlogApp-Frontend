@@ -8,6 +8,10 @@ const BlogPosts = () => {
     // GRAB (TOKEN/_id).
     const token = JSON.parse(localStorage.getItem('UserInfo')).token;
     const authToken = token.tokens.slice(-1);
+    
+    /* (token) */
+    // const token = JSON.parse(localStorage.getItem('UserInfo'));
+    // const authToken = token.token;
 
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
