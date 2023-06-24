@@ -21,4 +21,6 @@ TODO'S.
 5- Responsive Design.
 6- Add Validation both frontend and backend. 
 7- Make protection for routing.
+8- Add Infinite Scroll on AllBlogPost Page.
+9- Finaly Deploy.
 */

@@ -18,11 +18,13 @@ const Login = () => {
         })
         const userDoc = await response.json()
         if (userDoc.message === "Success") {
-            console.log("userDoc => ", userDoc.message);
+            // const { email, fullname, tokens, _id } = userDoc.token
+            // const userData = { email, fullname, tokens, _id }
+            // only save token and userData except password in frontend.
+            // localStorage.setItem("UserInfo", JSON.stringify(userData));
             localStorage.setItem("UserInfo", JSON.stringify(userDoc));
             window.location.reload();
         } else {
-            console.log("userDoc => ", userDoc.message);
             alert("Invalid Credentials")
         }
     };

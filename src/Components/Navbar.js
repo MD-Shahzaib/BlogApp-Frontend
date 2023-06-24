@@ -1,18 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+// Top-Loading-Bar.
+import LoadingBar from 'react-top-loading-bar'
 
 const Navbar = () => {
+
+    // Top-Loading-Bar.
+    let location = useLocation();
+    const [progress, setProgress] = useState(0)
+    useEffect(() => {
+        setProgress(100);
+    }, [location]);
 
     // Protected-Routing-Method.
     const [user, setUser] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    // const [userData, setUserData] = useState(null);
+
+    // const fetchUser = async () => {
+    //     const response = await fetch(`http://localhost:5000/users/getuser/${userData?._id}`);
+    //     const info = await response.json()
+    //     console.log(info);
+    // }
 
     useEffect(() => {
         const token = localStorage.getItem("UserInfo");
         if (token) {
             setUser(true);
             setCurrentUser(JSON.parse(token).token.fullname);
+            // const data = JSON.parse(token);
+            // console.log(data.email);
+            // setUserData(data);
+            // setCurrentUser(JSON.parse(token).fullname);
         };
+        // fetchUser();
     }, []);
 
     // Logout Function
@@ -25,8 +46,14 @@ const Navbar = () => {
 
     return (
         <>
-            <header className="text-gray-600 bg-slate-100">
-                <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <LoadingBar
+                color='#3f51b5'
+                progress={progress}
+                onLoaderFinished={() => setProgress(0)}
+            />
+            {/* Navbar */}
+            <header className='bg-slate-100'>
+                <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center text-gray-600">
                     <Link to={"/"} className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
