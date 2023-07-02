@@ -8,20 +8,19 @@ import Loading from './Loading';
 const BlogPosts = () => {
 
     // GRAB (TOKEN/_id).
-    const token = JSON.parse(localStorage.getItem('UserInfo')).token;
-    // const token = JSON.parse(localStorage.getItem('UserInfo'));
-    const authToken = token.tokens.slice(-1);
+    // const token = JSON.parse(localStorage.getItem('UserInfo')).token;
+    // // const token = JSON.parse(localStorage.getItem('UserInfo'));
+    // const authToken = token.tokens.slice(-1);
 
     /* (token) */
-    // const token = JSON.parse(localStorage.getItem('UserInfo'));
-    // const authToken = token.token;
+    const token = JSON.parse(localStorage.getItem('UserInfo'));
+    const authToken = token.token;
 
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchBlogs();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Fetch-All-Blogs Function.

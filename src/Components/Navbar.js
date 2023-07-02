@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 // Top-Loading-Bar.
 import LoadingBar from 'react-top-loading-bar'
+// Componenets.
+import DropdownMenu from './DropdownMenu';
 
 const Navbar = () => {
 
@@ -14,27 +16,36 @@ const Navbar = () => {
 
     // Protected-Routing-Method.
     const [user, setUser] = useState(false);
-    const [currentUser, setCurrentUser] = useState(null);
-    // const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState(null);
 
-    // const fetchUser = async () => {
-    //     const response = await fetch(`http://localhost:5000/users/getuser/${userData?._id}`);
-    //     const info = await response.json()
-    //     console.log(info);
-    // }
+    /* (token) */
+    // const token = JSON.parse(localStorage.getItem('UserInfo')); //col
+    // const authToken = token.token; //col
+    const token = localStorage.getItem("UserInfo"); //uop
 
     useEffect(() => {
-        const token = localStorage.getItem("UserInfo");
-        if (token) {
+        if (!token) {
+            setUser(false);
+        } else {
             setUser(true);
-            setCurrentUser(JSON.parse(token).token.fullname);
-            // const data = JSON.parse(token);
-            // console.log(data.email);
-            // setUserData(data);
-            // setCurrentUser(JSON.parse(token).fullname);
-        };
-        // fetchUser();
+            fetchUser();
+        }
     }, []);
+    // after logout have some token issue, (comment-on-login, col)|(uncomment-on-profile, uop)  
+
+    const fetchUser = async () => {
+        const response = await fetch("http://localhost:5000/users/profile", {
+            // headers: { Authorization: `Bearer ${authToken}` }, //col
+        });
+        const data = await response.json();
+        if (data.message === "Success") {
+            setUser(true);
+            setUserData(data.data);
+        } else {
+            console.log("error agaya");
+            alert("error agaya");
+        };
+    }
 
     // Logout Function
     const logout = () => {
@@ -69,8 +80,13 @@ const Navbar = () => {
                             :
                             <>
                                 <Link to={"/createPost"} className="hover:text-gray-900">Create New Post</Link>
-                                <button className='mx-4'>Profile <span className='font-semibold'>( {currentUser} )</span></button>
-                                <button onClick={logout} className='bg-gray-300 border-0 py-1 px-3 focus:outline-none hover:bg-gray-400 hover:text-slate-100 rounded text-base md:mt-0'>Logout</button>
+                                <DropdownMenu
+                                    userName={userData?.fullname}
+                                    userEmail={userData?.email}
+                                    logout={logout}
+                                />
+                                {/* <button className='mx-4'>Profile <span className='font-semibold'>( {userData?.fullname} )</span></button>
+                                <button onClick={logout} className='bg-gray-300 border-0 py-1 px-3 focus:outline-none hover:bg-gray-400 hover:text-slate-100 rounded text-base md:mt-0'>Logout</button> */}
                             </>
                         }
                     </nav>
