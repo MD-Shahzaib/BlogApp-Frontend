@@ -1,25 +1,20 @@
 // PROTECTED ROUTE.
-import { useEffect, useState } from 'react'
-// Import-Router-Components.
-import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route, Navigate } from "react-router-dom"
+import React, { useContext } from 'react';
+import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route, Navigate } from "react-router-dom";
+import { UserContext } from '../Context/UserContext';
 
 // Screens.
-import Home from "../Screens/Home"
-import Login from "../Screens/Login"
-import Register from "../Screens/Register"
-import CreatePost from "../Screens/CreatePost"
-import UpdatePost from '../Screens/UpdatePost'
-import Contact from "../Screens/Contact"
-import Article from '../Screens/Article'
+import Home from "../Screens/Home";
+import Login from "../Screens/Login";
+import Register from "../Screens/Register";
+import CreatePost from "../Screens/CreatePost";
+import UpdatePost from '../Screens/UpdatePost';
+import Contact from "../Screens/Contact";
+import Article from '../Screens/Article';
 
 export default function Router() {
 
-    // Protected-Routing-Method.
-    const [user, setUser] = useState(false)
-    useEffect(() => {
-        const token = localStorage.getItem("UserInfo")
-        if (token) { setUser(true) }
-    }, [])
+    const { user } = useContext(UserContext);
 
     // ALL-ROUTES.
     const router = createBrowserRouter(

@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { Navigate } from 'react-router-dom';
-// ReactQuill.
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-// React-Toastify.
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // Components.
@@ -12,14 +10,9 @@ import Footer from "../Components/Footer"
 
 const CreatePost = () => {
 
-    // GRAB (TOKEN/_id).
-    const token = JSON.parse(localStorage.getItem('UserInfo')).token;
-    const userId = token._id;
-    const authToken = token.tokens.slice(-1);
-
     /* (token) */
-    // const token = JSON.parse(localStorage.getItem('UserInfo')).token;
-    // const authToken = token;
+    const token = JSON.parse(localStorage.getItem('UserInfo')).token;
+    const authToken = token;
 
     // States.
     const [redirect, setRedirect] = useState(false);
@@ -43,7 +36,6 @@ const CreatePost = () => {
                 theme: "dark",
             });
         };
-
         if (picture.type === "image/jpeg" || picture.type === "image/png") {
             const data = new FormData();
             data.append("file", picture);
@@ -87,10 +79,7 @@ const CreatePost = () => {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${authToken}`,
             },
-            body: JSON.stringify({ title, summary, image, category, content, author: userId })
-
-            /* (token) */
-            // body: JSON.stringify({ title, summary, image, category, content })
+            body: JSON.stringify({ title, summary, image, category, content })
         })
         const postDoc = await response.json()
         if (postDoc.message === "Success") {

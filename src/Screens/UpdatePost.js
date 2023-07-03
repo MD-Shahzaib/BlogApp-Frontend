@@ -9,10 +9,9 @@ import Footer from '../Components/Footer'
 
 const UpdatePost = () => {
 
-    // GRAB (TOKEN/_id).
+    /* (token) */
     const token = JSON.parse(localStorage.getItem('UserInfo')).token;
-    const userId = token._id;
-    const authToken = token.tokens.slice(-1);
+    const authToken = token;
 
     const { id } = useParams();
     const [redirect, setRedirect] = useState(false);
@@ -60,7 +59,7 @@ const UpdatePost = () => {
         const response = await fetch(`http://localhost:5000/blogs/updateBlog/${id}`, {
             method: 'PUT',
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
-            body: JSON.stringify({ title, summary, image, category, content, author: userId })
+            body: JSON.stringify({ title, summary, image, category, content })
         })
         const postDoc = await response.json()
         if (postDoc.message === "Success") {

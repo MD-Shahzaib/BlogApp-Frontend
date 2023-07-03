@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom';
+import { UserContext } from '../Context/UserContext';
 // Components.
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 
 const Article = () => {
 
+    const { user } = useContext(UserContext);
     const { id } = useParams();
     const [article, setArticle] = useState({});
     const [redirect, setRedirect] = useState(false);
 
-    // GRAB (TOKEN/_id).
+    /* (token) */
     const token = JSON.parse(localStorage.getItem('UserInfo')).token;
-    const userId = token._id;
-    const authToken = token.tokens.slice(-1);
+    const authToken = token;
 
     // Destructuring-Article.
     const { author, title, summary, category, image, createdAt, content } = article;
@@ -72,7 +73,7 @@ const Article = () => {
                 <div className="lg:w-4/6 mx-auto">
                     <div className='mb-3 flex justify-center items-center'>
                         {/* ( userId === authorId ? edit/delete-btn : hide-edit/delete-btn ) */}
-                        {userId === author?._id && (
+                        {user._id === author?._id && (
                             <>
                                 <Link to={`/updatepost/${id}`} className='flex justify-center items-center bg-slate-200 mr-2 p-2 rounded-lg text-slate-800 font-semibold hover:bg-slate-300'>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 mr-1">
