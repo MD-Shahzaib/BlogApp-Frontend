@@ -11,6 +11,8 @@ import CreatePost from "../Screens/CreatePost";
 import UpdatePost from '../Screens/UpdatePost';
 import Contact from "../Screens/Contact";
 import Article from '../Screens/Article';
+import Profile from '../Screens/Profile';
+import UserBlogs from '../Screens/UserBlogs';
 
 export default function Router() {
 
@@ -37,6 +39,18 @@ export default function Router() {
                         user={!user}
                         route={<Register />}
                         navigateTo='/' />}
+                />
+                <Route path="/profile" element={
+                    <ProtectedRoute
+                        user={user}
+                        route={<Profile />}
+                        navigateTo='/login' />}
+                />
+                <Route path="/userblogs" element={
+                    <ProtectedRoute
+                        user={user}
+                        route={<UserBlogs />}
+                        navigateTo='/login' />}
                 />
                 <Route path="/contact" element={
                     <ProtectedRoute
